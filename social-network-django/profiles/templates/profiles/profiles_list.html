@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Profiles
+{% endblock title %}
+
+{% block content %}
+    <ul>
+        {% for profile in profiles %}
+
+            <div class="ui segment">
+                <div class="ui grid">
+                    <div class="row">
+
+                        <div class="tree wide column">
+                            <img src="{{ profile.avatar.url }}"
+                                 class="ui small circular image"
+                            >
+                        </div>
+
+                        <div class="thirteen wide column">
+                            <h3>{{ profile.username|capfirst }}</h3>
+                            <p>{{profile.bio}}</p>
+
+
+                            <a href='{{ profile.get_absolute_url }}'>
+                                <button class="ui primary button w-big mb-5">
+                                    See profile
+                                </button>
+                            </a>
+
+                            {% include 'profiles/profile_actions.html' %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <li>No profiles found</li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

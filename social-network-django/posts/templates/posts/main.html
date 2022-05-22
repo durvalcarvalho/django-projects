@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Posts
+{% endblock title %}
+
+{% block content %}
+<div class="ui grid">
+    <div class="row">
+        <div class="eleven wide column">
+            {% for post in posts %}
+                <div class="ui fluid card">
+
+                    <div class="content">
+                        <div class="right floated meta">
+                            <div class="ui grid">
+                                <div class="row">
+                                    {% ifequal request.user post.author.user %}
+                                        <a href="{% url 'posts:post-update' post.pk %}">
+                                            <button class="ui button bwhite-lg">
+                                                Update
+                                            </button>
+                                        </a>
+
+                                        <a href="{% url 'posts:post-delete' post.pk %}">
+                                            <button class="ui button bwhite-lg">
+                                                Delete
+                                            </button>
+                                        </a>
+                                    {% endifequal %}
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+                        <img src="{{ post.author.avatar.url }}" class="ui avatar image">
+
+                        {{ post.author.user }} - {{ post.created|timesince }} ago
+                    </div>
+
+                    <div class="ui fluid image">
+                        {% if post.image %}
+                            <img src="{{ post.image.url }}">
+                        {% endif %}
+                    </div>
+
+
+                    <div class="content">
+                        <p> {{ post.content }} </p>
+
+                        <div class="right floated">
+                            <form action="{% url 'posts:like-or-unlike-post' %}"
+                                  method="POST"
+                                  class="like-form"
+                                  id="{{ post.id }}"
+                            >
+                                {% csrf_token %}
+                                <input type="hidden" name="post_id" value="{{ post.id }}">
+
+                                <button class="ui primary button like-btn{{post.id}}" type="submit">
+                                    {% if profile not in post.liked.all %}
+                                        <i class="thumbs up icon"></i>
+                                        &nbsp; Like
+                                    {% else %}
+                                        <i class="thumbs down icon"></i>
+                                        &nbsp; Unlike
+                                    {% endif %}
+                                </button>
+
+                                <div class="ui grid">
+                                    <div class="column">
+                                        <div class="like-count{{post.id}}">
+                                            {{ post.num_of_likes }}
+                                        </div>
+
+                                        <div class="column">likes</div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <i class="comment icon">
+                            <span> {{ post.num_of_comments }} comments </span>
+                        </i>
+                    </div>
+
+
+
+
+                    <div class="extra content">
+                        <div class="mb-5"></div>
+
+                        <button class="cmt_btn ui button mb-5">
+                            show / hide comments
+                        </button>
+
+                        <div class="comment-box">
+                            {% for comment in post.get_comments %}
+                                <div class="ui segment mb-5">
+                                    <img src="{{ comment.user.avatar.url }}" class="ui avatar image">
+                                    <span>{{ comment.user }}</span>
+                                    <span class="date">{{ comment.created }}</span>
+
+                                    <div class="mt-5"> {{ comment.body }} </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <form action="" method="POST" class="ui fluid form">
+                            {% csrf_token %}
+                            <input type="hidden" name="post_id" value="{{ post.id }}">
+
+                            {{ comment_form.as_p }}
+
+                            <button type="submit" class="ui primary button mt-5 w-full">
+                                Post comment
+                            </button>
+                        </form>
+
+
+
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+
+        <div class="five wide column">
+            <div class="ui segment">
+
+                <form action="" method="POST" class="ui form" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    {{ post_form.as_p }}
+
+                    <button class="ui button positive w-full mt-5" type="submit">
+                        Create post
+                    </button>
+                </form>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>
+{% endblock content %}
+
+
+{% block scripts %}
+<script>
+$(document).ready(function() {
+    let display = false;
+
+    $('.cmt_btn').click(function() {
+        if(display === false) {
+            $(this).next('.comment-box').show('slow');
+            display = true;
+        }
+        else {
+            $(this).next('.comment-box').hide('slow');
+            display = false;
+        }
+    });
+
+
+    $(".like-form").submit(function(e) {
+        e.preventDefault();
+
+        const post_id = $(this).attr('id');
+        const like_text = $(`.like-btn${post_id}`).text();
+
+        const trim = $.trim(like_text);
+        const url = $(this).attr("action");
+
+
+        let res;
+
+        const likes = $(`.like-count${post_id}`).text();
+        const trim_count = parseInt(likes);
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+                post_id: post_id,
+            },
+            success: function(response) {
+
+                if(trim === "Unlike") {
+                    $(`.like-btn${post_id}`).text("Like");
+                    res = trim_count - 1;
+                }
+                else {
+                    $(`.like-btn${post_id}`).text("Unlike");
+                    res = trim_count + 1;
+                }
+                $(`.like-count${post_id}`).text(res);
+            },
+            error: function(response) {
+                console.log("error", response);
+            },
+        });
+    });
+});
+</script>
+{% endblock scripts %}

@@ -1,0 +1,66 @@
+<!-- Profile with no relation -->
+{% if profile.user not in invitations_received and profile.user not in invitations_sent %}
+<form action="{% url 'profiles:send-cancel-invitation-view' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="profile_pk" value="{{profile.pk}}">
+    <input type="hidden" name="invitation_type" value="friendship-request">
+
+    <button type="submit"
+            class="ui positive basic button mb-5 w-big"
+    >
+        <i class="plus square icon"></i>
+        Send friend request
+    </button>
+</form>
+
+<!-- Profile with relationship request pending -->
+{% elif profile.user in invitations_received and request.user not in profile.friends.all %}
+    <form action="{% url 'profiles:accept-reject-invitation-view' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="profile_pk" value="{{profile.pk}}">
+
+        <button type="submit"
+                class="ui positive basic button mb-5 w-big"
+                name="accept-invitation"
+        >
+            <i class="checkmark icon"></i>
+            Accept friend request
+        </button>
+
+        <button type="submit"
+                class="ui negative basic button mb-5 w-big"
+                name="reject-invitation"
+        >
+            <i class="remove icon"></i>
+            Decline friend request
+        </button>
+    </form>
+
+<!-- Friendship solicitation pending  -->
+{% elif profile.user in invitations_sent %}
+    <form action="{% url 'profiles:send-cancel-invitation-view' %}" method="post">
+        {% csrf_token %}
+
+        <input type="hidden" name="profile_pk" value="{{profile.pk}}">
+        <input type="hidden" name="invitation_type" value="cancel-friendship-request">
+
+        <button type="submit" class="ui negative basic button mb-5 w-big">
+            <i class="remove icon"></i>
+            Cancel friend request
+        </button>
+    </form>
+
+{% elif request.user in profile.friends.all %}
+    <form action="{% url 'profiles:remove-friendship-view' %}"
+        method="post"
+    >
+        {% csrf_token %}
+        <input type="hidden" name="profile_pk" value="{{profile.pk}}">
+
+
+        <button type="submit" class="ui negative basic button mb-5 w-big">
+            <i class="minus square icon"></i>
+            Remove from friends
+        </button>
+    </form>
+{% endif %}

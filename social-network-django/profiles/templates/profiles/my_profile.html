@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+
+{% block title %}
+My Profile
+{% endblock title %}
+
+{% block content %}
+
+<div class="ui segment">
+    {% if successfully_updated %}
+    <div class="ui green message">
+        Your profile has been successfully updated.
+    </div>
+    {% endif %}
+
+    <h3>Profile: {{ request.user.username|capfirst }}</h3>
+
+    <div class="ui grid">
+        <div class="row">
+            <div class="six wide column">
+                <img src="{{ profile.avatar.url }}" class="ui medium rounded image">
+            </div>
+
+            <div class="ten wide column">
+                <table class="ui table">
+                    <tbody>
+                        <tr>
+                            <td>Username</td>
+                            <td>{{ profile.user }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>First name</td>
+                            <td>{{ profile.first_name }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Last name</td>
+                            <td>{{ profile.last_name }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Email</td>
+                            <td>{{ profile.email }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Country</td>
+                            <td>{{ profile.country }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Profile created at</td>
+                            <td>{{ profile.created }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Profile updated at</td>
+                            <td>{{ profile.updated }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Number of posts</td>
+                            <td>{{ profile.get_posts_count }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Number of comments</td>
+                            <td>{{ profile.get_comments_count }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Number of liked given</td>
+                            <td>{{ profile.get_likes_given_count }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Number of liked received</td>
+                            <td>{{ profile.get_likes_received_count }}</td>
+                        </tr>
+
+
+                        <tr>
+                            <td>Number of friends</td>
+                            <td>{{ profile.get_friends_count }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Friends</td>
+                            <td>
+                                <div class="ui relaxed divided list">
+                                    {% for friend in profile.get_friends %}
+                                        <div class="item">
+                                            {{ friend }}
+                                            <!-- <div class="content">
+                                                <div class="description">
+
+                                                </div>
+                                            </div> -->
+
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                            </td>
+                        </tr>
+
+
+
+                    </tbody>
+                </table>
+
+                <div class="row mt-5">
+                    <button class="ui secondary button" id="modal-btn">
+                        Update your profile
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<form action="{% url 'profiles:my-profile-view' %}"
+      method="POST"
+      class="ui form"
+      enctype="multipart/form-data"
+>
+    {% csrf_token %}
+
+    <div class="ui modal update-profile-modal">
+        <i class="close icon"></i>
+
+        <div class="header"> Update your profile </div>
+
+        <div class="image content">
+            <div class="ui medium image holder">
+                <img src="{{ profile.avatar.url }}">
+            </div>
+
+            <br>
+
+
+            <div class="description">
+                <div class="ui header">
+                    Provide some additional information about you
+                </div>
+
+                {{ form.as_p }}
+            </div>
+
+        </div>
+
+
+        <div class="actions">
+            <button type="submit" class="ui positive right labeled icon button">
+                Update
+                <i class="checkmark icon"></i>
+            </button>
+        </div>
+    </div>
+</form>
+
+{% endblock content %}

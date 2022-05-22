@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Profile
+{% endblock title %}
+
+{% block content %}
+
+<div class="ui segment">
+
+    <h3>Profile: {{ profile.user.username|capfirst }}</h3>
+
+    <div class="ui grid">
+        <div class="row">
+            <div class="four wide column">
+                <img src="{{ profile.avatar.url }}"
+                     class="ui medium rounded image"
+                >
+
+                <h1>{{ profile.user.username|capfirst }}</h1>
+
+                <div class="ui vertical fluid menu">
+                    <div class="item">
+                        Posts
+                        <div class="ui label">
+                            {{ profile.get_posts_count }}
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        Likes given
+                        <div class="ui label">
+                            {{ profile.get_likes_given_count }}
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        Likes Received
+                        <div class="ui label">
+                            {{ profile.get_likes_received_count }}
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        Friends
+                        <div class="ui label">
+                            {{ profile.get_friends_count }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="twelve wide column">
+
+                {% include 'profiles/profile_actions.html' %}
+
+
+
+                <table class="ui table">
+                    <tbody>
+                        <tr>
+                            <td>Username</td>
+                            <td>{{ profile.user }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>First name</td>
+                            <td>{{ profile.first_name }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Last name</td>
+                            <td>{{ profile.last_name }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Email</td>
+                            <td>{{ profile.email }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Country</td>
+                            <td>{{ profile.country }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Profile created at</td>
+                            <td>{{ profile.created }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Profile updated at</td>
+                            <td>{{ profile.updated }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Number of posts</td>
+                            <td>{{ profile.get_posts_count }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Number of comments</td>
+                            <td>{{ profile.get_comments_count }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Number of liked given</td>
+                            <td>{{ profile.get_likes_given_count }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Number of liked received</td>
+                            <td>{{ profile.get_likes_received_count }}</td>
+                        </tr>
+
+
+                        <tr>
+                            <td>Number of friends</td>
+                            <td>{{ profile.get_friends_count }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Friends</td>
+                            <td>
+                                <div class="ui relaxed divided list">
+                                    {% for friend in profile.get_friends %}
+                                        <div class="item">
+                                            {{ friend }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                            </td>
+                        </tr>
+
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="sixteen wide column">
+                {% for post in posts %}
+                    <div class="segment ui fluid">
+                        {{ post.content }}
+                    </div>
+                {% empty %}
+                    <p> No posts </p>
+                {% endfor %}
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+{% endblock content %}

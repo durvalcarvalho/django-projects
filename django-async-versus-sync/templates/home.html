@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+    <!-- Took 5s to load message -->
+    <div class="row"> {{ total_time }} seconds to load </div>
+
+
+    <div class="row">
+        <div class="col m-3">
+            {% for person in people.results  %}
+                <div class="card p-3">
+                    {{ person.name }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="col m-3">
+            {% for starship in starships.results %}
+                <div class="card p-3">
+                    {{ starship.name }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}

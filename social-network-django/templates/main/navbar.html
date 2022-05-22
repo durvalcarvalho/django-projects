@@ -1,0 +1,100 @@
+{% url 'home-view' as path_to_home %}
+
+{% url 'posts:main-post-view' as path_to_posts %}
+
+{% url 'profiles:profiles-list-view' as path_to_profile_list %}
+{% url 'profiles:my-profile-view' as path_to_my_profile %}
+{% url 'profiles:invites-received-view' as path_to_received_invites %}
+{% url 'profiles:send-cancel-invitation-view' as path_to_send_invites %}
+
+
+<div class="ui inverted menu nav mb-7">
+    <div class="ui container">
+        <a href="{{ path_to_home }}"
+           class="item {% if request.path == path_to_home %}
+                          active
+                       {% endif %}"
+        >
+            <h3>Social Network</h3>
+        </a>
+        {% if request.user.is_authenticated %}
+        <a href="{{ path_to_posts }}"
+           class="
+            {% if request.path == path_to_posts  %}
+             active
+            {% endif %}
+            item"
+        >
+            Posts
+        </a>
+        {% endif %}
+
+        <div class="right menu">
+            {% if request.user.is_authenticated %}
+            <div class="item">
+                <div class="ui floating dropdown icon button teal">
+                    Friends
+
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a href="{{ path_to_my_profile }}"
+                           class="item
+                            {% if request.path == path_to_my_profile %}
+                             active
+                            {% endif %}
+                           "
+                        >
+                            My Profile
+                        </a>
+
+                        <a href="{{ path_to_send_invites }}"
+                           class="item
+                            {% if request.path == path_to_send_invites %}
+                             active
+                            {% endif %}
+                           "
+                        >
+                            Send Invites
+                        </a>
+
+                        <a href="{{path_to_received_invites}}"
+                           class="item
+                             {% if request.path == path_to_received_invites %}
+                                active
+                             {% endif %}
+                           "
+                        >
+                            Received Invites
+                            &nbsp;
+                            <div class="ui purple horizontal label">
+                                {{ received_invitations_num }}
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if request.user.is_authenticated %}
+                <a href="{{ path_to_my_profile }}"
+                   class="ui item {% if request.path == path_to_my_profile %}
+                                     active
+                                    {% endif %}"
+                >
+                    <img src="{{ profile_url }}" class="ui avatar image">
+                    &nbsp;
+                    {{ request.user.username }}
+                </a>
+
+                <a href="{% url 'account_logout' %}" class="ui item">
+                    Logout
+                </a>
+            {% else %}
+                <a href="{% url 'account_login' %}" class="ui item">
+                    Login
+                </a>
+            {% endif %}
+
+        </div>
+    </div>
+</div>

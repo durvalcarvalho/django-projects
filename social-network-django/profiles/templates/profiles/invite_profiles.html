@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Invite friends
+{% endblock title %}
+
+{% block content %}
+    <ul>
+        {% for profile in profiles %}
+            <li>
+                {{ profile.username|capfirst }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+    <!-- Custom JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"
+    ></script>
+
+    <!-- Custom CSS -->
+    {% block css %}
+    {% endblock css %}
+
+
+    <title>
+        {% block title %}
+            Django + Materialize
+        {% endblock title %}
+    </title>
+</head>
+<body>
+
+    <div class="container">
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'accounts:logout' %}">
+                Logout
+            </a>
+        {% endif %}
+
+
+        {% block content %}
+        {% endblock content %}
+    </div>
+
+    {% block scripts %}
+    {% endblock scripts %}
+</body>
+</html>
