@@ -8,31 +8,31 @@
             No tasks yet
         </h3>
     {% else %}
-        <p>
-            <i>{{ task_completed_count }}</i> /
-            <i>{{ task_count }}</i>
-            (<i>{{ perc_completed }}</i>)
-            tasks completed
-        </p>
-
-        <div id="search-wrapper">
-            <form method="GET" style="margin-top: 20px; display: flex;">
-                <input type="text"
-                       name="q"
-                       {% if request.GET.q %}
-                            value="{{ request.GET.q }}"
-                       {% endif %}
-                >
-                <input type="submit" class="button" value="Search">
-            </form>
-
-            <a href="{% url 'todos:task_create' %}" id="add-link">
-                Create new task
-            </a>
-        </div>
-
-
         <div class="task-items-wrapper">
+
+            <div id="search-wrapper">
+                <form method="GET" style="margin-top: 20px; display: flex;">
+                    <input type="text"
+                           name="q"
+                           {% if request.GET.q %}
+                                value="{{ request.GET.q }}"
+                           {% endif %}
+                    >
+                    <input type="submit" class="button" value="Search">
+                </form>
+
+                <a href="{% url 'todos:task_create' %}" id="add-link">
+                    Create new task
+                </a>
+            </div>
+
+            <p>
+                <i>{{ task_completed_count }}</i> /
+                <i>{{ task_count }}</i>
+                (<i>{{ perc_completed }}</i>)
+                tasks completed
+            </p>
+
             {% for task in tasks %}
                 <div class="task-wrapper">
                     <div class="task-title">
