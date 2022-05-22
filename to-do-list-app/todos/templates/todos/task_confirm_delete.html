@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="navbar">
+        <a href="{% url 'todos:task_list' %}">
+            &#8592; Back to list
+        </a>
+    </div>
+
+    <h1>
+        Are you sure you want to delete this task?
+    </h1>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+
+        <div class="task-wrapper">
+            <div class="task-title">
+                <div class="{{ task.get_task_icon_css }}"></div>
+                <a href="{% url 'todos:task_detail' task.pk %}">
+                    {{ task.title }}
+                </a>
+            </div>
+        </div>
+
+        <input type="submit" value="Delete" class="button" />
+    </form>
+
+
+
+{% endblock content %}

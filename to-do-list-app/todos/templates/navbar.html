@@ -1,0 +1,15 @@
+<div class="navbar">
+    {% if request.user.is_authenticated %}
+        <div>
+            <h1>Logged user: {{ request.user|capfirst }}</h1>
+        </div>
+
+        <a href="{% url 'todos:logout' %}">
+            Logout
+        </a>
+    {% else %}
+        <a href="{% url 'todos:login' %}">
+            Login
+        </a>
+    {% endif %}
+</div>

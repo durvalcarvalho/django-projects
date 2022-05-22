@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h3>Loggout</h3>
+
+    <p>
+        You are now logged out.
+    </p>
+
+    <p>
+        <a href="{% url 'todos:task_list' %}">
+            Task list
+        </a>
+    </p>
+
+
+    <p>
+        <a href="{% url 'todos:login' %}">
+            Login
+        </a>
+    </p>
+
+{% endblock content %}

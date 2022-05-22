@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <table>
+        <tr>
+            <th>Item</th>
+        </tr>
+            <tr>
+                <td>
+                    {{ task }}
+                </td>
+            </tr>
+    </table>
+
+    <!-- Go back -->
+    <a href="{% url 'todos:task_list' %}">
+        Back to list
+    </a>
+
+{% endblock content %}

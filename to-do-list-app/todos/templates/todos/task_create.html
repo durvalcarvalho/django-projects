@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="navbar">
+        <a href="{% url 'todos:task_list' %}">
+            &#8592; Back to list
+        </a>
+    </div>
+
+
+    <h3>Create new task</h3>
+
+    <div class="card-body">
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <input type="submit" value="Create" class="button" />
+        </form>
+    </div>
+
+    <!-- Go back -->
+
+
+{% endblock content %}
