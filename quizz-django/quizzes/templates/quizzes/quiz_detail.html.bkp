@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <h1>Quiz: {{ quiz.name }}</h1>
+
+    {% for question in quiz.get_questions.all %}
+        <p>
+            Question title: {{ question.title }}
+        </p>
+
+        <ul>
+            {% for option in question.get_answers.all %}
+                <li>
+                    {{ option.title }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+
+{% endblock content %}
+
+{% block scripts %}
+    <script src="{% static 'quizzes/quiz_detail.js' %}" defer></script>
+{% endblock scripts %}

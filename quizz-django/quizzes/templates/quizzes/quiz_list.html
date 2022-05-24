@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+    <div class="h1">
+        Quizzes List
+    </div>
+
+    <hr>
+
+    {% for quiz in quizzes %}
+        <!-- Button trigger modal -->
+        <button class="btn btn-link modal-button"
+                data-pk="{{ quiz.pk }}"
+                data-quiz="{{ quiz.name }}"
+                data-question_count="{{ quiz.get_questions.count }}"
+                data-difficulty="{{ quiz.difficulty }}"
+                data-duration="{{ quiz.duration }}"
+                data-required_score="{{ quiz.required_score }}"
+                data-target="#quizModal"
+                data-toggle="modal"
+        >
+            {{ quiz.name }}
+        </button>
+        <br>
+    {% endfor %}
+
+    <hr>
+
+    <!-- Modal -->
+    <div class="modal fade" id="quizModal" tabindex="-1" aria-labelledby="quizModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="quizModalLabel">
+                        Start Quiz?
+                    </h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+
+                <div class="modal-body" id="modal-body-confirm">
+                ...
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-success" id="start-button">Start the Quiz!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+{% block scripts %}
+    <script src="{% static 'quizzes/quiz_list.js' %}" defer></script>
+{% endblock scripts %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+    <div id="quiz-alert-container">
+    </div>
+
+    <div class="row">
+        <div class="col"></div>
+        <div class="col text-right">
+            Remaining time: <span id="quiz-timer"></span>
+        </div>
+    </div>
+
+    <h1>Quiz: {{ quiz.name }}</h1>
+
+    <form action="" class="mt-3 mb-3" id="quiz-form" method="POST">
+        {% csrf_token %}
+
+        <!-- Dynamic filled -->
+        <div id="quiz-box"></div>
+
+        <button type="submit" class="btn btn-primary mt-3">
+            Save
+        </button>
+    </form>
+
+{% endblock content %}
+
+{% block scripts %}
+    <script src="{% static 'quizzes/quiz_detail.js' %}" defer></script>
+{% endblock scripts %}

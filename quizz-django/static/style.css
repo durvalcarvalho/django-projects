@@ -1,0 +1,9 @@
+
+
+.not-visible {
+    display: none;
+}
+
+.modal-dialog {
+    max-width: 550px;
+}
