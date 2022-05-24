@@ -36,8 +36,9 @@
                         </div>
 
                         <img src="{{ post.author.avatar.url }}" class="ui avatar image">
-
-                        {{ post.author.user }} - {{ post.created|timesince }} ago
+                        <a href="{% url 'profiles:profile-detail-view' post.author.pk %}">
+                            {{ post.author.user }}
+                        </a> - {{ post.created|timesince }} ago
                     </div>
 
                     <div class="ui fluid image">
