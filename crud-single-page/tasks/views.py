@@ -14,7 +14,7 @@ def list_all_tasks(request):
         'tasks': []
     }
 
-    for task in Task.objects.all():
+    for task in Task.objects.filter(user=request.user):
         data['tasks'].append(task.to_json())
 
     return JsonResponse(data)
@@ -90,7 +90,11 @@ def create_task(request):
             'error': 'percentage_completed must be between 0 and 100',
         }, status=400)
 
-    task = Task.objects.create(name=name, percentage_completed=percentage_completed)
+    task = Task.objects.create(
+        name=name,
+        percentage_completed=percentage_completed,
+        user=request.user,
+    )
 
     return JsonResponse({
         'task': task.to_json(),
