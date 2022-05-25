@@ -1,24 +1,99 @@
+let new_id = 4;
+let new_test = { 'name': '', 'result': '', 'id': new_id };
+
+const zeroPad = (num, places) => String(num).padStart(places, '0')
+
+
+function handleButtonForm() {
+    const form_elem = $('.form-wrapper')
+
+    if(form_elem.hasClass('hidden') === false) {
+        console.log("First if");
+        $('#add-test').html('Close form');
+        $('#add-test').toggleClass('btn-success');
+        $('#add-test').toggleClass('btn-danger');
+    }
+
+    else {
+        console.log("Second if");
+
+        $('#add-test').html('Add test');
+
+        $('#add-test').toggleClass('btn-success');
+        $('#add-test').toggleClass('btn-danger');
+    }
+}
+
 $('#add-test').on('click', () => {
+    const form_elem = $('.form-wrapper')
+    form_elem.toggleClass('hidden');
 
-});
+    handleButtonForm();
 
-$('#test-result').on('keyup', () => {
-
+    $('#test-name').val('');
+    $('#test-result').val('');
 });
 
 $('#test-name').on('change', () => {
+    const elem = $('#test-name');
+    new_test.name = elem.val();
+});
 
+function formatResultInput(value) {
+    // Remove spaces and %
+    value = value.replace(/\s/g, '');
+
+    // Convert to int
+    value = parseInt(value);
+
+    // If not a number, set to 0
+    if(isNaN(value) || value > 100) {
+        alert('Please enter a number between 0 and 100');
+        value = 0
+    };
+
+    value = zeroPad(value, 2)
+    value = `${value}%`;
+    return value;
+}
+
+$('#test-result').on('change', () => {
+    const elem = $('#test-result');
+    let value = elem.val();
+
+    // Convert to int
+    value = formatResultInput(value);
+
+    $('#test-result').val(value);
+    new_test.result = value;
 });
 
 $('#create-test').on('click', () => {
+    if(new_test.name == '' || new_test.result == '') {
+        alert('Please fill in all the fields');
+        return;
+    }
 
+    for(const test of tests) {
+        if(test.id >= new_id) {
+            new_test.id = test.id + 1;
+        }
+    }
+
+    tests.push(new_test);
+
+    addRow(new_test);
+
+    $('.form-wrapper').addClass('hidden');
+
+    handleButtonForm();
 });
 
 
 let tests =[
-    {'name': 'Dislillation 50%',      'id':1, 'result': "43"},
-    {'name': 'Flash Point',           'id':2, 'result': "61"},
-    {'name': 'Water by Karl Fischer', 'id':3, 'result': "24"},
+    {'id':1, 'result': "43%", 'name': 'Explore Petra'},
+    {'id':2, 'result': "61%", 'name': 'Learn to Use a Pogo Stick'},
+    {'id':3, 'result': "24%", 'name': 'Watch all Breaking Bad episodes'},
 ];
 
 let current_action = '';
@@ -105,7 +180,7 @@ function editResult() {
     const elem_selector = `#${elem_id}`;
     $(elem_selector).data('current-action', 'edit');
 
-    const value = $(this).html();
+    let value = $(this).html();
 
     // If at least one of the inputs is being edit, dont switch the buttons
     if(input_name.children().length == 0 && input_result.children().length == 0) {
@@ -168,11 +243,24 @@ function confirmEditInput(id, input_type) {
     if (td.data('current-action') == 'edit') {
         const input = $(`#input-${input_type}-${id} > input`);
 
-        const value = input.val();
+        let value = input.val();
+
+        if(input_type === 'result') {
+            value = formatResultInput(value);
+        }
+
         test[input_type] = value;
         td.html(`${value}`);
 
         td.data('current-action', '');
+
+        const row = $(`.test-row-${id}`);
+
+        row.css('opacity', '0.5');
+
+        setTimeout(() => {
+            row.css('opacity', '1');
+        }, 1000);
 
         return true;
     }
