@@ -1,14 +1,14 @@
-import json
-
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.http.response import HttpResponseNotAllowed
 from django.views.decorators.csrf import csrf_exempt
 from django.http import QueryDict
+from django.contrib.auth.decorators import login_required
 
 from tasks.models import Task
 
 
+@login_required
 def list_all_tasks(request):
     data = {
         'tasks': []
@@ -19,6 +19,7 @@ def list_all_tasks(request):
 
     return JsonResponse(data)
 
+@login_required
 @csrf_exempt
 def delete_task(request, task_id):
     if request.method == 'DELETE':
@@ -26,7 +27,7 @@ def delete_task(request, task_id):
         return JsonResponse({}, status=204)
     return HttpResponseNotAllowed(['DELETE'])
 
-
+@login_required
 @csrf_exempt
 def update_task(request, task_id):
     if request.method != 'PUT':
@@ -63,7 +64,7 @@ def update_task(request, task_id):
     }, status=204)
 
 
-
+@login_required
 @csrf_exempt
 def create_task(request):
     if request.method != 'POST':

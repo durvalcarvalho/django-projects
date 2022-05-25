@@ -42,7 +42,6 @@ INSTALLED_APPS = [
 
     'materializecssform',
 
-
     'songs',
     'preferences',
     'accounts',

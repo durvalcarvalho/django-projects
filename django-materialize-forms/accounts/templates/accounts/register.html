@@ -21,21 +21,20 @@
 {% block content %}
 <h1> Register </h1>
 
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form|materializecss }}
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form|materializecss }}
 
-        <button type="submit" class="waves-effect waves light btn-large">
-            Register
-        </button>
-    </form>
+    <button type="submit" class="waves-effect waves light btn-large">
+        Register
+    </button>
+</form>
 
-    <div>
-        <a href="{% url 'accounts:register' %}">
-            Already have an account? Login here.
-        </a>
-    </div>
-
+<div>
+    <a href="{% url 'accounts:register' %}">
+        Already have an account? Login here.
+    </a>
+</div>
 {% endblock content %}
 
 {% block scripts %}
