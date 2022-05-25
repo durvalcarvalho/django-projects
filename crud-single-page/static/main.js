@@ -8,15 +8,12 @@ function handleButtonForm() {
     const form_elem = $('.form-wrapper')
 
     if(form_elem.hasClass('hidden') === false) {
-        console.log("First if");
         $('#add-test').html('Close form');
         $('#add-test').toggleClass('btn-success');
         $('#add-test').toggleClass('btn-danger');
     }
 
     else {
-        console.log("Second if");
-
         $('#add-test').html('Add test');
 
         $('#add-test').toggleClass('btn-success');
@@ -80,6 +77,23 @@ $('#create-test').on('click', () => {
         }
     }
 
+    $.ajax({
+        url: `/tasks/create/`,
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            'name': new_test.name,
+            'percentage_completed': new_test.result,
+        },
+        success: function(response) {
+            $('#test-table').html('');
+            tests = fetch_all_tests();
+        },
+        error: function(response) {
+            console.log(response);
+        },
+    });
+
     tests.push(new_test);
 
     addRow(new_test);
@@ -89,17 +103,24 @@ $('#create-test').on('click', () => {
     handleButtonForm();
 });
 
+let tests = fetch_all_tests();
 
-let tests =[
-    {'id':1, 'result': "43%", 'name': 'Explore Petra'},
-    {'id':2, 'result': "61%", 'name': 'Learn to Use a Pogo Stick'},
-    {'id':3, 'result': "24%", 'name': 'Watch all Breaking Bad episodes'},
-];
+function fetch_all_tests() {
+    var host = window.location.protocol + "//" + window.location.host;
 
-let current_action = '';
-
-for(const test of tests) {
-    addRow(test)
+    $.ajax({
+        url: `${host}/tasks/`,
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            tests = response['tasks'];
+            for(const test of tests) {
+                addRow(test)
+            }
+        },
+        error: function(response) {
+        }
+    });
 }
 
 function addRow(obj) {
@@ -113,7 +134,7 @@ function addRow(obj) {
             <td id="input-result-${obj.id}"
                 data-testid="${obj.id}"
                 class="input-result"
-            >${obj.result}</td>
+            >${obj.percentage_completed}</td>
 
             <td>
                 <button class="btn btn-sm btn-danger"
@@ -277,6 +298,31 @@ function confirmAction() {
     made_changes |= confirmEditInput(testid, 'result');
 
     if(made_changes) {
+        let test = tests.find(test => test.id === testid);
+
+        let td_name = $(`#input-name-${testid}`);
+        let td_result = $(`#input-result-${testid}`);
+
+        const new_name = td_name.html();
+        const new_result = td_result.html();
+
+        $.ajax({
+            url: `/tasks/${testid}/update/`,
+            type: 'PUT',
+            data: {
+                'name': new_name,
+                'percentage_completed': new_result,
+            },
+            success: function(response) {
+                $('#test-table').html('');
+                tests = fetch_all_tests();
+            },
+            error: function(response) {
+                console.log('error');
+                console.log(response);
+            },
+        });
+
         togglHiddenClass(testid);
         return;
     }
@@ -284,6 +330,20 @@ function confirmAction() {
     // Remove record from list of records
     tests = tests.filter(test => test.id !== testid);
 
-    // Remove row from table
-    $(`.test-row-${testid}`).remove();
+    $.ajax({
+        url: `/tasks/${testid}/delete/`,
+        type: 'DELETE',
+        success: function(response) {
+            console.log('success');
+            console.log(response);
+            // Remove row from table
+
+            $(`.test-row-${testid}`).remove();
+            // tests = fetch_all_tests
+        },
+        error: function(response) {
+            console.log('error');
+            console.log(response);
+        },
+    });
 }
