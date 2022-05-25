@@ -1,0 +1,12 @@
+.hidden {
+    display: none;
+}
+
+
+.input-result {
+    max-width: 65px;
+}
+
+#test-table > tr {
+    height: 65px;
+}
