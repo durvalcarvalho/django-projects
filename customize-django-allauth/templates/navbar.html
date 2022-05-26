@@ -1,0 +1,54 @@
+{% url 'account_login' as login_url %}
+{% url 'account_logout' as logout_url %}
+{% url 'account_signup' as signup_url %}
+
+{% url 'posts:post_list' as post_list_url %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand"
+           href="{{ post_list_url }}"
+        > PostsApp </a>
+
+        <button class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+
+
+                <li class="nav-item {% if request.path == post_list_url %} active {% endif %}">
+                    <a class="nav-link"
+                       href="{{ post_list_url }}"
+                    > Home <span class="sr-only"> (current) </span></a>
+                </li>
+
+                {% if request.user.is_is_authenticated %}
+                    <li class="nav-item {% if request.path == logout_url %} active {% endif %}">
+                        <a class="nav-link" href="#">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item {% if request.path == login_url %} active {% endif %}">
+                        <a class="nav-link" href="{{ login_url }}">Login</a>
+                    </li>
+
+                    <li class="nav-item {% if request.path == signup_url %} active {% endif %}">
+                        <a class="nav-link"
+                        href="{{ signup_url }}"
+                        >
+                            Signup
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
