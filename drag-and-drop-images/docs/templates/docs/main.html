@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form action="{% url 'docs:file-upload-view' %}"
+          method="post"
+          class="dropzone dz"
+          id="my-dropzone"
+    >
+        {% csrf_token %}
+        <div class="fallback">
+            <input type="file" name="file" multiple>
+        </div>
+    </form>
+{% endblock content %}
