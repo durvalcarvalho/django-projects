@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+{% block content %}
+<h3>Filter Journals</h3>
+
+<div class="container mt-5">
+    <h3>Journals</h3>
+
+    <form method="get">
+        {% bootstrap_form filter.form %}
+        <input type="submit" />
+    </form>
+
+    <div class="row">
+        {% for journal in filter.qs %}
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {{ journal.title }}
+                    </h5>
+                </div>
+
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Author: {{ journal.author }} </li>
+                    <li class="list-group-item">Publish at: {{ journal.publish_at }} </li>
+                    <li class="list-group-item">Views: {{ journal.views }} </li>
+                    <li class="list-group-item">Reviwed:
+                        {% if journal.reviewed %}
+                            Yes
+                        {% else %}
+                            No
+                        {% endif %}
+                    </li>
+                </ul>
+
+                <div class="card-body">
+                    <h6> Categories  </h6>
+                    <ul class="list-group list-group-flush">
+                        {% for category in journal.categories.all %}
+                            <li class="list-group-item">{{ category.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+
+{% endblock content %}

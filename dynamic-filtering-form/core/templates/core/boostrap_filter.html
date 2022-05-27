@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>Filter Journals</h3>
+
+<form method="get" action="">
+
+    <div class="form-row">
+        <div class="form-group col-12">
+            <div class="input-group">
+                <input type="search"
+                       class="form-control py-2 border-right-0 border"
+                       placeholder="Title contains..."
+                       name="title_contains"
+                       value="{{ request.GET.title_contains }}"
+                >
+                <span class="input-group-append">
+                    <div class="input-group-text bg-transparent">
+                        <i class="fa fa-search"></i>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-12">
+            <div class="input-group">
+                <input type="search"
+                       class="form-control py-2 border-right-0 border"
+                       placeholder="Title is exactly..."
+                       name="title_exact"
+                       value="{{ request.GET.title_exact }}"
+                >
+                <span class="input-group-append">
+                    <div class="input-group-text bg-transparent">
+                        <i class="fa fa-search"></i>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-12">
+            <div class="input-group">
+                <input type="search"
+                       class="form-control py-2 border-right-0 border"
+                       placeholder="Title or author..."
+                       name="title_or_author"
+                       value="{{ request.GET.title_or_author }}"
+                >
+                <span class="input-group-append">
+                    <div class="input-group-text bg-transparent">
+                        <i class="fa fa-search"></i>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-row">
+        <div class="form-group col-md-2 col-lg-2">
+            <label for="viewCountMin">Minimum View Count</label>
+            <input type="number"
+                   min="0"
+                   class="form-control"
+                   id="viewCountMin"
+                   name="view_count_min"
+                   value="{{ request.GET.view_count_min }}"
+            >
+        </div>
+
+
+        <div class="form-group col-md-2 col-lg-2">
+            <label for="viewCountMax">Maximum View Count</label>
+            <input type="number"
+                   min="0"
+                   class="form-control"
+                   id="viewCountMax"
+                   name="view_count_max"
+                   value="{{ request.GET.view_count_max }}"
+            >
+        </div>
+
+
+        <div class="form-group col-md-2 col-lg-2">
+            <label for="publishDateMin">Publish date minimum</label>
+            <input type="date"
+                   class="form-control"
+                   id="publishDateMin"
+                   name="publish_date_min"
+                   value="{{ request.GET.publish_date_min }}"
+            >
+        </div>
+
+
+        <div class="form-group col-md-2 col-lg-2">
+            <label for="publishDateMax">Publish date maximum</label>
+            <input type="date"
+                   class="form-control"
+                   id="publishDateMax"
+                   name="publish_date_max"
+                   value="{{ request.GET.publish_date_max }}"
+            >
+        </div>
+
+        <div class="form-group col-md-4">
+            <label for="inputState">Category</label>
+
+            <select id="inputState" class="form-control" name="category">
+                <option></option>
+                {% for category in categories %}
+                    <option value="{{ category.name }}"
+                            {% if category.name == request.GET.category %}
+                                selected
+                            {% endif %}
+                    >
+                        {{ category.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <div class="form-check ml-2">
+                <input class="form-check-input" id="reviewed" type="checkbox" name="reviewed">
+                <label class="form-check-label" for="reviewed">
+                    Reviewed
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<div class="container mt-5">
+    <h3>Journals</h3>
+
+    <div class="row">
+        {% for journal in journals %}
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {{ journal.title }}
+                    </h5>
+                </div>
+
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Author: {{ journal.author }} </li>
+                    <li class="list-group-item">Publish at: {{ journal.publish_at }} </li>
+                    <li class="list-group-item">Views: {{ journal.views }} </li>
+                    <li class="list-group-item">Reviwed:
+                        {% if journal.reviewed %}
+                            Yes
+                        {% else %}
+                            No
+                        {% endif %}
+                    </li>
+                </ul>
+
+                <div class="card-body">
+                    <h6> Categories  </h6>
+                    <ul class="list-group list-group-flush">
+                        {% for category in journal.categories.all %}
+                            <li class="list-group-item">{{ category.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+
+{% endblock content %}
