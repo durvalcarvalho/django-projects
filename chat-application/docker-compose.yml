@@ -1,0 +1,39 @@
+version: '3.8'
+
+
+networks:
+  chat-network:
+    name: chat-network
+    driver: bridge
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: ./docker/django.Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - "./backend:/src"
+    command: python manage.py runserver 0.0.0.0:8000
+    networks:
+      - chat-network
+
+
+  frontend:
+    build:
+      context: .
+      dockerfile: ./docker/frontend.Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - "./frontend:/src"
+    # command: npx parcel index.html --port=8080
+    command: tail -f /dev/null
+    networks:
+      - chat-network
+
+  redis:
+    image: redis
+    networks:
+      - chat-network
