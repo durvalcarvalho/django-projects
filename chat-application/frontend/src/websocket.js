@@ -17,11 +17,11 @@ class WebSocketService {
         const path = 'ws://localhost:8000/ws/chat/test/';
         this.socketRef = new WebSocket(path);
         this.socketRef.onopen = () => {
-            console.log('WebSocket open');
+            // console.log('WebSocket open');
         };
-        this.socketNewMessage(JSON.stringify({
-            command: 'fetch_messages'
-        }));
+
+        this.socketNewMessage(JSON.stringify({command: 'fetch_messages'}));
+
         this.socketRef.onmessage = e => {
             this.socketNewMessage(e.data);
         };

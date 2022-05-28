@@ -13,6 +13,12 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+
+small {
+    font-size: 0.8em;
+    color: #9b9b9b;
+}
+
 #frame {
     width: 100%;
     min-width: 360px;

@@ -22,5 +22,6 @@ class Message(models.Model):
             'id': self.id,
             'author': self.author.username,
             'content': self.content,
-            'created_at': self.created_at.strftime('%b %d %Y, %H:%M:%S')
+            # 'created_at': self.created_at.strftime('%b %d %Y, %H:%M:%S')
+            'created_at': self.created_at.isoformat()
         }
