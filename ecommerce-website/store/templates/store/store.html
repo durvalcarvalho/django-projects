@@ -1,0 +1,29 @@
+{% extends 'store/main.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="row">
+        {% csrf_token %}
+        {% for product in products %}
+        <div class="col-lg-4">
+            <img src="{{ product.image_url }}" alt="{{ product.name }}" class="thumbnail">
+            <div class="box-element product">
+                <h6><strong>
+                    <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+                </strong></h6>
+                <hr>
+                <button class="btn btn-outline-secondary add-btn update-cart"
+                        data-product_id="{{ product.id }}"
+                        data-action="add"
+                    >
+                    <i class="fa fa-shopping-cart"></i> Add to cart
+                </button>
+
+                <a href="{{ product.get_absolute_url }}" class="btn btn-outline-success">View</a>
+
+                <h4 style="float: right;"> {{ product.price }} </h4>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock content %}
