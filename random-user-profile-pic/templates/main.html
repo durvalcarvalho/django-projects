@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- <button type="button" class="btn btn-primary">
+    Lauch demo modal
+</button> -->
+
+<div class="modal fade"
+     id="jdenticonModal"
+     tabindex="-1"
+     aria-labelledby="jdenticonModalLabel"
+     aria-hidden="true"
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="jdenticonModalLabel">
+                    Selected jdenticon
+                </h5>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                > </button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                ...
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% for user in users %}
+    <svg width="80"
+         height="80"
+         data-jdenticon-value="{{ user.username }}"
+         class="jdenticon"
+         style="cursor: pointer;"
+         data-bs-toggle="modal"
+         data-bs-target="#jdenticonModal"
+    ></svg>
+    {{ user.username }}
+    <br>
+{% endfor %}
+{% endblock content %}
