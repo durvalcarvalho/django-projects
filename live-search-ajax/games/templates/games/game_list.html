@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+    <h1>Game list</h1>
+
+
+    <div class="w-100 text-center">
+        <form id="search-form" autocomplete="off">
+            {% csrf_token %}
+
+            <input type="text" id="search-input" class="p-2 w-50 search" placeholder="Search for games...">
+        </form>
+
+        <div id="results-box" class="result-card not-visible">
+            No games found...
+        </div>
+    </div>
+{% endblock content %}
+
+
+{% block scripts %}
+{% endblock scripts %}

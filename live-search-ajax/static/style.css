@@ -1,0 +1,27 @@
+.search:focus {
+    background-color: #E8E8E8;
+}
+
+.not-visible {
+    display: none;
+}
+
+.result-card {
+    width: 50%;
+    /* max-width: 200px; */
+    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.25);
+    transition: 0.5s;
+    border-radius: 7px;
+    padding: 15px 15px;
+    margin: 0 auto;
+}
+
+.item {
+    text-decoration: none;
+}
+
+.game-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}

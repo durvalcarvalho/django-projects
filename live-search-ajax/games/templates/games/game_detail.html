@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+    <h1>Game list</h1>
+
+    <p>
+        {{ game.to_json }}
+    </p>
+{% endblock content %}
+
+
+{% block scripts %}
+{% endblock scripts %}
