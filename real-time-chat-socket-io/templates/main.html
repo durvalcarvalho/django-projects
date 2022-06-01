@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+    <div id="alert-box"></div>
+
+    <div class="input-group">
+        <input type="text" id="message-input" class="form-control" placeholder="Type a message">
+        <button id="send-btn" class="btn btn-primary input-group-text">Send</button>
+    </div>
+
+    <div id="messages-box"></div>
+
+{% endblock %}
