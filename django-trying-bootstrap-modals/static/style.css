@@ -1,0 +1,11 @@
+.not-visible {
+    display: none;
+}
+
+.my-img {
+    cursor: pointer;
+}
+
+.modal-content {
+    border-radius: 5%;
+}

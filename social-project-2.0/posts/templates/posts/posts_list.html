@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div id="posts">
+        <h1>Posts</h1>
+        <ul>
+            {% for post in posts %}
+                <div>
+                    <p>{{ post.body }}</p>
+                    <p>{{ post.created_at }}</p>
+                    <p>{{ post.updated_at }}</p>
+                    <img src="{{ post.picture.url }}">
+                    <hr>
+                </div>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock content %}

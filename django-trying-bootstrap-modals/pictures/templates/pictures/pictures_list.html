@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="text-center">
+    <div class="spinner-border" role="status" id="spinner"></div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Picture</th>
+            <th scope="col">Information</th>
+        </tr>
+    </thead>
+
+    <tbody id="table-body-box">
+
+
+    </tbody>
+</table>
+
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="previewPictureModal" tabindex="-1"
+    aria-labelledby="previewPictureModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="previewPictureModalLabel">Picture preview</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                    aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                    data-dismiss="modal">Close</button>
+                <!-- <button type="button" class="btn btn-primary">Save
+                    changes</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %}
+<ul>
+    {% for picture in pictures %}
+    <li>
+        <img src="{{ picture.image.url }}">
+        <p> {{ picture.info }} </p>
+    </li>
+    {% endfor %}
+</ul>
+{% endcomment %}
+{% endblock content %}
