@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <table class="table">
+        <thead>
+            <tr class="text-center">
+                <th scope="col">Preview</th>
+                <th scope="col">Hex code</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for color in colors %}
+                <tr class="text-center">
+                    <td style="background-color: {{color.hexcode}}"></td>
+                    <td>{{ color.hexcode }}</td>
+                    <td>
+                        <!-- Copy to clipboard -->
+                        <button class="btn btn-primary copy-btn"
+                                data-hexcode="{{ color.hexcode }}"
+                        >Copy</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock content %}
